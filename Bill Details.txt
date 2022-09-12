@@ -1,0 +1,72 @@
+string ='19283,03-Sep-22,4300,8754810022,Cash;19267,03-aug-22,6720,87810022,CC;19284,04-Sep-22,400,8754810022,DebitCard;'
+lst=[]
+st = ''
+for i in string:
+    if i != ';':
+        st+=i
+    else:
+        lst.append(st)
+        st=''
+lst2=[]
+for j in lst:
+    lst2.append(j.split(','))
+
+# a.)bill details with the highest bill amount and lowest bill amount
+high, low =[],[] 
+hi = 0
+lw = int(lst2[0][2])
+for i in lst2:
+    if int(i[2])>hi:
+        hi =0
+        high=[]
+        hi+=int(i[2])
+        high.append(i)
+    elif int(i[2])<=lw:
+        lw=0
+        low=[]
+        lw+=int(i[2])
+        low.append(i)
+print('Highest bill amount is: ',hi,'||','bill details= ','bill no:',high[0][0],'bill date:',high[0][1],'bill amount:',high[0][2],'customer no:',high[0][3],'payment mode:',high[0][4])
+print('lowest bill amount is: ',lw,'||','bill details= ','bill no:',low[0][0],'bill date:',low[0][1],'bill amount:',low[0][2],'customer no:',low[0][3],'payment mode:',low[0][4])
+
+# b.)transaction amount done in the month of AUG
+trans_amt_aug = 0
+for i in lst2:
+    for j in i:
+        if 'aug' in j:
+            trans_amt_aug+=int(i[2])
+print('Transaction amount done in August: ',trans_amt_aug)
+
+# c.)what are the TOTAL valued transactions the customer whose mobile number 9887767890 did?
+mobno = input('Enter your mobile number: ')
+total_trans = 0
+for i in lst2:
+    for j in i:
+        if mobno == j:
+            total_trans+=int(i[2])
+print('Total transaction done by this ',mobno,'is ',total_trans)
+
+# d.)How many non-cash transacion happened?
+cont = 0
+for i in lst2:
+    if  'Cash' not in i:
+        cont += 1
+print('There are ',cont,'non cash transaction happened')
+
+# e.)get a report in the following way.... (for instance)
+
+l=[]
+cont=0
+total =0
+for i in lst2:
+    if i[3] not in l:
+        l.append(i[3])
+for j in l:
+    cont=0
+    total=0
+    for x in lst2:
+        if j in x:
+            cont+=1
+            total+=int(x[2])
+
+    print('mobile number: ',j,'No of Transaction: ',cont,'Total transaction value: ',total)
